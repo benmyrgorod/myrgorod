@@ -44,6 +44,11 @@
             <span data-contact-music-label>Play MIDI mood</span>
           </button>
           <audio src="audio/contact-midi-mood.wav" preload="auto" loop data-contact-audio></audio>
+          <a class="linkedin-flyout" href="https://www.linkedin.com/in/benmyrgorod/" aria-label="Open LinkedIn profile" title="Open LinkedIn profile">
+            <span class="linkedin-pulse-ring" aria-hidden="true"></span>
+            <img alt="LinkedIn Icon" src="img/icon/linkedin.png" heigh="25px" width="25px">
+            <span class="linkedin-countdown" aria-live="polite" data-linkedin-countdown></span>
+          </a>
         </div>
 
         <form action="https://formspree.io/f/mrgngokp" method="POST" accept-charset="UTF-8" >
@@ -195,6 +200,42 @@
 
           window.addEventListener("pagehide", stopMusic);
         }
+      }());
+    </script>
+    <script>
+      (function () {
+        var linkedinLink = document.querySelector(".linkedin-flyout");
+        var countdown = document.querySelector("[data-linkedin-countdown]");
+        var isRedirecting = false;
+
+        if (!linkedinLink || !countdown) {
+          return;
+        }
+
+        linkedinLink.addEventListener("click", function (event) {
+          var remaining = 5;
+          event.preventDefault();
+
+          if (isRedirecting) {
+            return;
+          }
+
+          isRedirecting = true;
+          linkedinLink.classList.add("is-counting-down");
+          countdown.textContent = remaining;
+
+          var timer = window.setInterval(function () {
+            remaining -= 1;
+
+            if (remaining <= 0) {
+              window.clearInterval(timer);
+              window.location.href = linkedinLink.href;
+              return;
+            }
+
+            countdown.textContent = remaining;
+          }, 1000);
+        });
       }());
     </script>
   </body>
