@@ -174,11 +174,6 @@
       }
 
       isRedirecting = true;
-      if (audio) {
-        audio.pause();
-        audio.currentTime = 0;
-      }
-
       link.classList.add("is-counting-down");
       countdown.innerHTML = '<span class="linkedin-countdown-number">' + remaining + '</span>';
 
@@ -195,6 +190,11 @@
           }
 
           window.setTimeout(function () {
+            if (audio) {
+              audio.pause();
+              audio.currentTime = 0;
+            }
+
             window.location.href = link.href;
           }, 1250);
           return;
