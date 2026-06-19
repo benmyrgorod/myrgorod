@@ -156,6 +156,7 @@
     var link = find(".linkedin-flyout");
     var countdown = find("[data-linkedin-countdown]");
     var transitionBurst = find("[data-linkedin-transition-burst]");
+    var audio = find("[data-contact-audio]");
     var isRedirecting = false;
 
     if (!link || !countdown) {
@@ -173,6 +174,11 @@
       }
 
       isRedirecting = true;
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+
       link.classList.add("is-counting-down");
       countdown.innerHTML = '<span class="linkedin-countdown-number">' + remaining + '</span>';
 
