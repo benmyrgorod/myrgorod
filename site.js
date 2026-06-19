@@ -242,8 +242,107 @@
     window.setTimeout(updateTravel, 300);
   }
 
+  function initLinkTransitions() {
+    document.addEventListener("click", function (event) {
+      var link = event.target.closest ? event.target.closest("a") : null;
+      var burst;
+      var href;
+
+      if (!link || link.classList.contains("linkedin-flyout")) {
+        return;
+      }
+
+      href = link.getAttribute("href");
+
+      if (!href || href === "#" || href.charAt(0) === "#" || link.hasAttribute("download")) {
+        return;
+      }
+
+      if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) {
+        return;
+      }
+
+      event.preventDefault();
+
+      burst = document.createElement("span");
+      burst.className = "page-link-burst";
+      burst.style.setProperty("--link-burst-x", event.clientX + "px");
+      burst.style.setProperty("--link-burst-y", event.clientY + "px");
+      document.body.appendChild(burst);
+
+      window.requestAnimationFrame(function () {
+        burst.classList.add("is-active");
+      });
+
+      window.setTimeout(function () {
+        if (link.target === "_blank") {
+          window.open(link.href, "_blank", "noopener");
+          burst.remove();
+          return;
+        }
+
+        window.location.href = link.href;
+      }, 620);
+    });
+  }
+
+  function runYellowBurst(x, y, callback) {
+    var burst = document.createElement("span");
+
+    burst.className = "page-link-burst";
+    burst.style.setProperty("--link-burst-x", x + "px");
+    burst.style.setProperty("--link-burst-y", y + "px");
+    document.body.appendChild(burst);
+
+    window.requestAnimationFrame(function () {
+      burst.classList.add("is-active");
+    });
+
+    window.setTimeout(function () {
+      callback();
+    }, 620);
+  }
+
+  function initFormTransitions() {
+    var form = find('form[action="https://formspree.io/f/mrgngokp"]');
+    var isSubmitting = false;
+
+    if (!form) {
+      return;
+    }
+
+    form.addEventListener("submit", function (event) {
+      var submitButton = form.querySelector('[type="submit"]');
+      var buttonBox;
+      var x;
+      var y;
+
+      if (isSubmitting) {
+        return;
+      }
+
+      event.preventDefault();
+      isSubmitting = true;
+
+      if (submitButton) {
+        buttonBox = submitButton.getBoundingClientRect();
+        x = buttonBox.left + buttonBox.width / 2;
+        y = buttonBox.top + buttonBox.height / 2;
+      } else {
+        x = window.innerWidth / 2;
+        y = window.innerHeight / 2;
+      }
+
+      runYellowBurst(x, y, function () {
+        form.submit();
+      });
+    });
+  }
+
   initContactSpinner();
   initContactMusic();
   initLinkedInTravel();
   initLinkedInCountdown();
+  initLinkTransitions();
+  initFormTransitions();
 }());
