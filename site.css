@@ -450,9 +450,17 @@ body.contact-music-playing .contact-music-icon {
 }
 
 @media (max-width: 575.98px) {
+  .contact-soundbar {
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+
   .linkedin-flyout {
     --linkedin-final-rotation: -1080deg;
-    --linkedin-travel-x: -3.4rem;
+    --linkedin-travel-x: 0;
+    margin-left: 0;
   }
 }
 
