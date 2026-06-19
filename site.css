@@ -121,7 +121,7 @@ body.contact-music-playing .contact-music-icon {
 .linkedin-flyout {
   align-items: center;
   --linkedin-travel-x: min(52vw, 34rem);
-  animation: linkedinFlyout 3.8s linear 350ms both, linkedinPulse 1.6s ease-in-out 4.3s infinite;
+  animation: linkedinFlyout 3s ease-out 350ms both, linkedinPulse 1.6s ease-in-out 3.6s infinite;
   background: rgba(255, 255, 255, 0.9);
   border: 2px solid rgba(10, 102, 194, 0.22);
   border-radius: 50%;
@@ -148,7 +148,7 @@ body.contact-music-playing .contact-music-icon {
 }
 
 .linkedin-flyout img {
-  animation: linkedinColorShift 2.6s ease 350ms both;
+  animation: linkedinColorShift 2.2s ease-out 350ms both;
   border-radius: 50%;
   height: 1.55rem;
   position: relative;
@@ -200,72 +200,28 @@ body.contact-music-playing .contact-music-icon {
 }
 
 @keyframes linkedinFlyout {
-  0% {
+  from {
     opacity: 0;
-    transform: translate(-8.4rem, -0.6rem) rotate(-260deg) scale(0.36);
+    transform: translate(-8rem, -0.5rem) rotate(-260deg) scale(0.38);
   }
 
-  8% {
+  55% {
     opacity: 1;
-    transform: translate(calc(var(--linkedin-travel-x) * -0.04), -0.25rem) rotate(20deg) scale(0.5);
+    transform: translate(calc(var(--linkedin-travel-x) * 0.58), -0.15rem) rotate(980deg) scale(1);
   }
 
-  16% {
-    transform: translate(calc(var(--linkedin-travel-x) * 0.06), 0.18rem) rotate(220deg) scale(0.62);
-  }
-
-  24% {
-    transform: translate(calc(var(--linkedin-travel-x) * 0.17), 0.42rem) rotate(430deg) scale(0.72);
-  }
-
-  32% {
-    transform: translate(calc(var(--linkedin-travel-x) * 0.29), 0.3rem) rotate(650deg) scale(0.82);
-  }
-
-  40% {
-    transform: translate(calc(var(--linkedin-travel-x) * 0.41), 0.02rem) rotate(870deg) scale(0.92);
-  }
-
-  48% {
-    transform: translate(calc(var(--linkedin-travel-x) * 0.52), -0.16rem) rotate(1090deg) scale(1);
-  }
-
-  56% {
-    transform: translate(calc(var(--linkedin-travel-x) * 0.62), -0.1rem) rotate(1310deg) scale(1.06);
-  }
-
-  64% {
-    transform: translate(calc(var(--linkedin-travel-x) * 0.72), 0.08rem) rotate(1530deg) scale(1.1);
-  }
-
-  72% {
-    transform: translate(calc(var(--linkedin-travel-x) * 0.81), 0.16rem) rotate(1730deg) scale(1.13);
-  }
-
-  80% {
-    transform: translate(calc(var(--linkedin-travel-x) * 0.89), 0.08rem) rotate(1910deg) scale(1.16);
-  }
-
-  90% {
-    transform: translate(calc(var(--linkedin-travel-x) * 0.96), -0.02rem) rotate(2110deg) scale(1.19);
-  }
-
-  100% {
+  to {
     opacity: 1;
-    transform: translate(var(--linkedin-travel-x), 0) rotate(2260deg) scale(1.2);
+    transform: translate(var(--linkedin-travel-x), 0) rotate(1600deg) scale(1.2);
   }
 }
 
 @keyframes linkedinColorShift {
-  0% {
+  from {
     filter: grayscale(1) brightness(0.45);
   }
 
-  70% {
-    filter: grayscale(0.35) saturate(1.35);
-  }
-
-  100% {
+  to {
     filter: saturate(1.7) drop-shadow(0 0 8px rgba(10, 102, 194, 0.35));
   }
 }
@@ -273,11 +229,11 @@ body.contact-music-playing .contact-music-icon {
 @keyframes linkedinPulse {
   0%,
   100% {
-    transform: translate(var(--linkedin-travel-x), 0) rotate(2260deg) scale(1.2);
+    transform: translate(var(--linkedin-travel-x), 0) rotate(1600deg) scale(1.2);
   }
 
   50% {
-    transform: translate(var(--linkedin-travel-x), 0) rotate(2260deg) scale(1.34);
+    transform: translate(var(--linkedin-travel-x), 0) rotate(1600deg) scale(1.32);
   }
 }
 
@@ -290,60 +246,28 @@ body.contact-music-playing .contact-music-icon {
 
   50% {
     opacity: 0.5;
-    transform: scale(1.25);
+    transform: scale(1.22);
   }
 }
 
 @keyframes linkedinCountdownSpin {
-  0% {
+  from {
     filter: saturate(1.7) drop-shadow(0 0 8px rgba(10, 102, 194, 0.35));
     transform: rotate(0deg) scale(1);
   }
 
-  20% {
-    transform: rotate(160deg) scale(1.04);
-  }
-
-  40% {
-    transform: rotate(520deg) scale(1.1);
-  }
-
-  60% {
-    transform: rotate(1180deg) scale(1.16);
-  }
-
-  80% {
-    transform: rotate(2240deg) scale(1.22);
-  }
-
-  100% {
+  to {
     filter: saturate(2) drop-shadow(0 0 14px rgba(10, 102, 194, 0.55));
     transform: rotate(3820deg) scale(1.28);
   }
 }
 
 @keyframes linkedinCountdownNumberSpin {
-  0% {
+  from {
     transform: translateY(-50%) rotate(0deg) scale(1);
   }
 
-  20% {
-    transform: translateY(-50%) rotate(120deg) scale(1.03);
-  }
-
-  40% {
-    transform: translateY(-50%) rotate(380deg) scale(1.08);
-  }
-
-  60% {
-    transform: translateY(-50%) rotate(860deg) scale(1.12);
-  }
-
-  80% {
-    transform: translateY(-50%) rotate(1680deg) scale(1.16);
-  }
-
-  100% {
+  to {
     transform: translateY(-50%) rotate(2860deg) scale(1.2);
   }
 }

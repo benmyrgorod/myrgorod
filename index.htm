@@ -164,60 +164,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script>
-      (function () {
-        var spinner = document.querySelector("[data-contact-spinner]");
-        var contactLink = document.querySelector('.navbar-nav a[href="contact.htm"]');
-        var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        var isNavigating = false;
-
-        function navigateToContact(event) {
-          if (isNavigating) {
-            return;
-          }
-
-          if (event) {
-            event.preventDefault();
-          }
-
-          isNavigating = true;
-
-          if (!contactLink || reduceMotion) {
-            window.location.href = spinner.href;
-            return;
-          }
-
-          var spinnerBox = spinner.getBoundingClientRect();
-          var contactBox = contactLink.getBoundingClientRect();
-
-          if (!contactBox.width || !contactBox.height) {
-            document.body.classList.add("page-leaving");
-            window.setTimeout(function () {
-              window.location.href = spinner.href;
-            }, 220);
-            return;
-          }
-
-          spinner.style.setProperty("--contact-launch-x", (contactBox.left + contactBox.width / 2 - spinnerBox.left - spinnerBox.width / 2) + "px");
-          spinner.style.setProperty("--contact-launch-y", (contactBox.top + contactBox.height / 2 - spinnerBox.top - spinnerBox.height / 2) + "px");
-          contactLink.classList.add("contact-link-target");
-          spinner.classList.add("is-launching");
-
-          window.setTimeout(function () {
-            document.body.classList.add("page-leaving");
-          }, 500);
-
-          window.setTimeout(function () {
-            window.location.href = spinner.href;
-          }, 760);
-        }
-
-        if (spinner) {
-          spinner.addEventListener("mouseenter", navigateToContact);
-          spinner.addEventListener("click", navigateToContact);
-        }
-      }());
-    </script>
+    <script src="site.js"></script>
 
   </body>
 </html>
