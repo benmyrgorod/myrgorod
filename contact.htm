@@ -43,6 +43,7 @@
             <span class="contact-music-icon" aria-hidden="true"></span>
             <span data-contact-music-label>Play MIDI mood</span>
           </button>
+          <audio src="audio/contact-midi-mood.wav" preload="auto" loop data-contact-audio></audio>
         </div>
 
         <form action="https://formspree.io/f/mrgngokp" method="POST" accept-charset="UTF-8" >
@@ -81,130 +82,108 @@
       (function () {
         var button = document.querySelector("[data-contact-music]");
         var label = document.querySelector("[data-contact-music-label]");
-        var audioContext = null;
-        var timer = null;
-        var step = 0;
+        var audio = document.querySelector("[data-contact-audio]");
         var isPlaying = false;
-        var isStarting = false;
         var pendingAutoplay = false;
-        var melody = [69, 72, 71, 67, 64, 67, 69, null, 67, 69, 71, 74, 72, 67, 64, null];
-        var bass = [45, null, 45, null, 43, null, 43, null, 40, null, 40, null, 43, null, 45, null];
-        var tempo = 190;
 
-        function frequencyFromMidi(note) {
-          return 440 * Math.pow(2, (note - 69) / 12);
-        }
-
-        function playNote(note, duration, type, volume) {
-          if (note === null || !audioContext) {
-            return;
-          }
-
-          var now = audioContext.currentTime;
-          var oscillator = audioContext.createOscillator();
-          var gain = audioContext.createGain();
-
-          oscillator.type = type;
-          oscillator.frequency.setValueAtTime(frequencyFromMidi(note), now);
-          gain.gain.setValueAtTime(0.0001, now);
-          gain.gain.exponentialRampToValueAtTime(volume, now + 0.015);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-          oscillator.connect(gain);
-          gain.connect(audioContext.destination);
-          oscillator.start(now);
-          oscillator.stop(now + duration + 0.02);
-        }
-
-        function tick() {
-          if (!isPlaying) {
-            return;
-          }
-
-          playNote(melody[step % melody.length], 0.14, "square", 0.055);
-
-          if (step % 2 === 0) {
-            playNote(bass[step % bass.length], 0.22, "triangle", 0.05);
-          }
-
-          if (step % 8 === 4) {
-            playNote(melody[(step + 5) % melody.length] - 12, 0.18, "sine", 0.025);
-          }
-
-          step += 1;
-          timer = window.setTimeout(tick, tempo);
+        if (audio) {
+          audio.volume = 0.45;
         }
 
         function markPlaying() {
           isPlaying = true;
-          isStarting = false;
           pendingAutoplay = false;
           button.setAttribute("aria-pressed", "true");
           label.textContent = "Pause MIDI mood";
           document.body.classList.add("contact-music-playing");
-          tick();
         }
 
         function markReady() {
           isPlaying = false;
-          isStarting = false;
           button.setAttribute("aria-pressed", "false");
           label.textContent = "Play MIDI mood";
           document.body.classList.remove("contact-music-playing");
         }
 
-        function startMusic() {
-          if (isPlaying || isStarting) {
+        function startMusic(isAutoplay) {
+          if (!audio || !audio.play) {
+            label.textContent = "Music unavailable";
             return;
           }
 
-          isStarting = true;
-          audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
-          audioContext.resume().then(function () {
-            if (audioContext.state === "running") {
+          pendingAutoplay = false;
+          button.setAttribute("aria-pressed", "true");
+          label.textContent = "Starting MIDI mood";
+
+          var playAttempt = audio.play();
+
+          if (playAttempt && playAttempt.then) {
+            playAttempt.then(function () {
               markPlaying();
+            }).catch(function () {
+              pendingAutoplay = Boolean(isAutoplay);
+              markReady();
+
+              if (!isAutoplay) {
+                label.textContent = "Audio blocked";
+                window.setTimeout(function () {
+                  if (audio.paused) {
+                    label.textContent = "Play MIDI mood";
+                  }
+                }, 1600);
+              }
+            });
+            return;
+          }
+
+          window.setTimeout(function () {
+            if (audio.paused) {
+              pendingAutoplay = Boolean(isAutoplay);
+              markReady();
               return;
             }
 
-            pendingAutoplay = true;
-            markReady();
-          }).catch(function () {
-            pendingAutoplay = true;
-            markReady();
-          });
+            markPlaying();
+          }, 100);
         }
 
         function stopMusic() {
-          isPlaying = false;
-          isStarting = false;
-          window.clearTimeout(timer);
-          button.setAttribute("aria-pressed", "false");
-          label.textContent = "Play MIDI mood";
-          document.body.classList.remove("contact-music-playing");
+          if (audio) {
+            audio.pause();
+          }
+
+          markReady();
         }
 
-        function startAfterGesture() {
+        function startAfterGesture(event) {
           if (!pendingAutoplay || isPlaying) {
             return;
           }
 
-          startMusic();
+          if (event && button.contains(event.target)) {
+            return;
+          }
+
+          startMusic(false);
           document.removeEventListener("pointerdown", startAfterGesture);
           document.removeEventListener("keydown", startAfterGesture);
         }
 
-        if (button) {
+        if (button && audio) {
+          audio.addEventListener("playing", markPlaying);
+          audio.addEventListener("pause", markReady);
+
           button.addEventListener("click", function () {
-            if (isPlaying) {
+            if (!audio.paused) {
               stopMusic();
               return;
             }
 
-            startMusic();
+            startMusic(false);
           });
 
           window.setTimeout(function () {
-            startMusic();
+            startMusic(true);
             window.setTimeout(function () {
               if (!isPlaying) {
                 pendingAutoplay = true;
