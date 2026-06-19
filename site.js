@@ -202,9 +202,15 @@
   function initLinkedInTravel() {
     var link = find(".linkedin-flyout");
     var soundbar = find(".contact-soundbar");
-    var form = soundbar && soundbar.parentElement ? soundbar.parentElement.querySelector("form") : null;
+    var container = soundbar ? soundbar.closest(".container") : null;
+    var form = container ? container.querySelector("form") : null;
 
-    if (!link || !form) {
+    if (!link) {
+      return;
+    }
+
+    if (!form) {
+      link.classList.add("is-ready");
       return;
     }
 

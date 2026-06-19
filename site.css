@@ -77,6 +77,36 @@ body.page-leaving {
   text-shadow: 0 0 14px rgba(255, 255, 255, 0.95);
 }
 
+.contact-intro {
+  align-items: flex-start;
+  display: flex;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.contact-intro h1 {
+  margin-bottom: 0;
+}
+
+.contact-intro .lead {
+  margin-bottom: 1rem;
+}
+
+.contact-intro-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.contact-avatar {
+  border: 3px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+  flex: 0 0 auto;
+  height: 132px;
+  object-fit: cover;
+  width: 132px;
+}
+
 .contact-soundbar {
   align-items: center;
   display: flex;
@@ -408,6 +438,11 @@ body.contact-music-playing .contact-music-icon {
 
   .contact-spinner::before {
     animation: none;
+  }
+
+  .contact-avatar {
+    height: 96px;
+    width: 96px;
   }
 
   .linkedin-flyout,
