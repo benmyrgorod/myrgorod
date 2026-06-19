@@ -46,13 +46,16 @@ body.page-leaving {
 }
 
 .contact-spinner::after {
+  animation: electronOrbit 1.15s linear infinite;
   background: #007bff;
   border-radius: 50%;
   content: "";
   height: 9px;
+  left: 50%;
   position: absolute;
-  right: 5px;
-  top: 5px;
+  top: 50%;
+  transform: rotate(0deg) translateX(15px) translate(-50%, -50%);
+  transform-origin: 0 0;
   width: 9px;
 }
 
@@ -276,6 +279,40 @@ body.contact-music-playing .contact-music-icon {
   }
 }
 
+@keyframes electronOrbit {
+  0% {
+    transform: translate(-50%, -50%) translate(12px, -8px) scale(1);
+  }
+
+  14% {
+    transform: translate(-50%, -50%) translate(-6px, -14px) scale(0.9);
+  }
+
+  29% {
+    transform: translate(-50%, -50%) translate(-15px, 3px) scale(1.08);
+  }
+
+  43% {
+    transform: translate(-50%, -50%) translate(5px, 13px) scale(0.95);
+  }
+
+  58% {
+    transform: translate(-50%, -50%) translate(15px, 2px) scale(1.05);
+  }
+
+  73% {
+    transform: translate(-50%, -50%) translate(-3px, 9px) scale(0.9);
+  }
+
+  88% {
+    transform: translate(-50%, -50%) translate(8px, -13px) scale(1.12);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) translate(12px, -8px) scale(1);
+  }
+}
+
 @keyframes linkedinFlyout {
   from {
     opacity: 0;
@@ -437,6 +474,10 @@ body.contact-music-playing .contact-music-icon {
   }
 
   .contact-spinner::before {
+    animation: none;
+  }
+
+  .contact-spinner::after {
     animation: none;
   }
 
