@@ -153,6 +153,7 @@ body.contact-music-playing .contact-music-icon {
 
 .linkedin-flyout {
   align-items: center;
+  --linkedin-final-rotation: 1600deg;
   --linkedin-travel-x: min(52vw, 34rem);
   background: rgba(255, 255, 255, 0.9);
   border: 2px solid rgba(10, 102, 194, 0.22);
@@ -218,7 +219,6 @@ body.contact-music-playing .contact-music-icon {
   color: #fff;
   font-size: 0.95rem;
   font-weight: 700;
-  left: 3.25rem;
   min-width: 3.6rem;
   opacity: 0;
   padding: 0.25rem 0.55rem;
@@ -226,13 +226,20 @@ body.contact-music-playing .contact-music-icon {
   position: absolute;
   text-align: center;
   top: 50%;
-  transform: translateY(-50%) scale(0.85);
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg) translateX(3.25rem) rotate(0deg) scale(0.85);
   transition: opacity 180ms ease, transform 180ms ease;
 }
 
 .linkedin-flyout.is-counting-down .linkedin-countdown {
-  animation: linkedinCountdownNumberSpin 5s cubic-bezier(0.55, 0, 1, 1) forwards;
+  animation: linkedinCountdownNumberOrbit 5s cubic-bezier(0.55, 0, 1, 1) forwards;
   opacity: 1;
+  transform-origin: center;
+}
+
+.linkedin-countdown-number {
+  animation: linkedinCountdownSelfSpin 5s cubic-bezier(0.55, 0, 1, 1) forwards;
+  display: inline-block;
 }
 
 .linkedin-flyout.is-counting-down img {
@@ -316,17 +323,12 @@ body.contact-music-playing .contact-music-icon {
 @keyframes linkedinFlyout {
   from {
     opacity: 0;
-    transform: translate(-8rem, -0.5rem) rotate(-260deg) scale(0.38);
-  }
-
-  55% {
-    opacity: 1;
-    transform: translate(calc(var(--linkedin-travel-x) * 0.58), -0.15rem) rotate(980deg) scale(1);
+    transform: translate(-8rem, -0.5rem) rotate(calc(var(--linkedin-final-rotation) * -0.16)) scale(0.38);
   }
 
   to {
     opacity: 1;
-    transform: translate(var(--linkedin-travel-x), 0) rotate(1600deg) scale(1.2);
+    transform: translate(var(--linkedin-travel-x), 0) rotate(var(--linkedin-final-rotation)) scale(1.2);
   }
 }
 
@@ -343,11 +345,11 @@ body.contact-music-playing .contact-music-icon {
 @keyframes linkedinPulse {
   0%,
   100% {
-    transform: translate(var(--linkedin-travel-x), 0) rotate(1600deg) scale(1.2);
+    transform: translate(var(--linkedin-travel-x), 0) rotate(var(--linkedin-final-rotation)) scale(1.2);
   }
 
   50% {
-    transform: translate(var(--linkedin-travel-x), 0) rotate(1600deg) scale(1.32);
+    transform: translate(var(--linkedin-travel-x), 0) rotate(var(--linkedin-final-rotation)) scale(1.32);
   }
 }
 
@@ -376,13 +378,23 @@ body.contact-music-playing .contact-music-icon {
   }
 }
 
-@keyframes linkedinCountdownNumberSpin {
+@keyframes linkedinCountdownNumberOrbit {
   from {
-    transform: translateY(-50%) rotate(0deg) scale(1);
+    transform: translate(-50%, -50%) rotate(0deg) translateX(3.25rem) rotate(0deg) scale(1);
   }
 
   to {
-    transform: translateY(-50%) rotate(2860deg) scale(1.2);
+    transform: translate(-50%, -50%) rotate(2860deg) translateX(3.25rem) rotate(-700deg) scale(1.2);
+  }
+}
+
+@keyframes linkedinCountdownSelfSpin {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+
+  to {
+    transform: rotate(2160deg) scale(1.12);
   }
 }
 
@@ -423,17 +435,24 @@ body.contact-music-playing .contact-music-icon {
 @keyframes linkedinNumberExplode {
   0% {
     opacity: 1;
-    transform: translateY(-50%) rotate(2860deg) scale(1.2);
+    transform: translate(-50%, -50%) rotate(2860deg) translateX(3.25rem) rotate(-700deg) scale(1.2);
   }
 
   45% {
     opacity: 0.95;
-    transform: translateY(-50%) rotate(3180deg) scale(1.8);
+    transform: translate(-50%, -50%) rotate(3180deg) translateX(3.25rem) rotate(-360deg) scale(1.8);
   }
 
   100% {
     opacity: 0;
-    transform: translateY(-50%) rotate(3600deg) scale(0.1);
+    transform: translate(-50%, -50%) rotate(3600deg) translateX(3.25rem) rotate(0deg) scale(0.1);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .linkedin-flyout {
+    --linkedin-final-rotation: -1080deg;
+    --linkedin-travel-x: -3.4rem;
   }
 }
 
@@ -490,6 +509,7 @@ body.contact-music-playing .contact-music-icon {
   .linkedin-flyout img,
   .linkedin-burst,
   .linkedin-countdown,
+  .linkedin-countdown-number,
   .linkedin-transition-burst,
   .linkedin-pulse-ring {
     animation: none;

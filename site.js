@@ -174,14 +174,14 @@
 
       isRedirecting = true;
       link.classList.add("is-counting-down");
-      countdown.textContent = remaining;
+      countdown.innerHTML = '<span class="linkedin-countdown-number">' + remaining + '</span>';
 
       timer = window.setInterval(function () {
         remaining -= 1;
 
         if (remaining === 0) {
           window.clearInterval(timer);
-          countdown.textContent = "0";
+          countdown.innerHTML = '<span class="linkedin-countdown-number">0</span>';
           link.classList.add("is-exploding");
 
           if (transitionBurst) {
@@ -194,7 +194,7 @@
           return;
         }
 
-        countdown.textContent = remaining;
+        countdown.innerHTML = '<span class="linkedin-countdown-number">' + remaining + '</span>';
       }, 1000);
     });
   }
@@ -215,6 +215,11 @@
     }
 
     function updateTravel() {
+      if (window.matchMedia && window.matchMedia("(max-width: 575.98px)").matches) {
+        link.classList.add("is-ready");
+        return;
+      }
+
       var parent = link.offsetParent;
 
       if (!parent) {
