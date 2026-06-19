@@ -121,7 +121,6 @@ body.contact-music-playing .contact-music-icon {
 .linkedin-flyout {
   align-items: center;
   --linkedin-travel-x: min(52vw, 34rem);
-  animation: linkedinFlyout 3s ease-out 350ms both, linkedinPulse 1.6s ease-in-out 3.6s infinite;
   background: rgba(255, 255, 255, 0.9);
   border: 2px solid rgba(10, 102, 194, 0.22);
   border-radius: 50%;
@@ -137,6 +136,10 @@ body.contact-music-playing .contact-music-icon {
   transform-origin: center;
   width: 2.45rem;
   will-change: transform;
+}
+
+.linkedin-flyout.is-ready {
+  animation: linkedinFlyout 3s ease-out 350ms both, linkedinPulse 1.6s ease-in-out 3.6s infinite;
 }
 
 .linkedin-flyout:hover,
@@ -165,6 +168,16 @@ body.contact-music-playing .contact-music-icon {
   position: absolute;
 }
 
+.linkedin-burst {
+  background: radial-gradient(circle, rgba(10, 102, 194, 0.95) 0 18%, rgba(23, 162, 184, 0.45) 32%, rgba(10, 102, 194, 0) 68%);
+  border-radius: 50%;
+  inset: -1.2rem;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: scale(0.25);
+}
+
 .linkedin-countdown {
   background: #0a66c2;
   border-radius: 999px;
@@ -191,6 +204,40 @@ body.contact-music-playing .contact-music-icon {
 
 .linkedin-flyout.is-counting-down img {
   animation: linkedinCountdownSpin 5s cubic-bezier(0.55, 0, 1, 1) forwards;
+}
+
+.linkedin-flyout.is-exploding {
+  pointer-events: none;
+}
+
+.linkedin-flyout.is-exploding .linkedin-burst {
+  animation: linkedinExplode 850ms ease-out forwards;
+}
+
+.linkedin-flyout.is-exploding .linkedin-countdown {
+  animation: linkedinNumberExplode 850ms ease-out forwards;
+}
+
+.linkedin-flyout.is-exploding img {
+  animation: linkedinIconExplode 850ms ease-out forwards;
+}
+
+.linkedin-transition-burst {
+  background: #ffd447;
+  border-radius: 50%;
+  height: 12vmax;
+  left: 50%;
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 12vmax;
+  z-index: 3000;
+}
+
+.linkedin-transition-burst.is-active {
+  animation: linkedinPageFill 1.2s cubic-bezier(0.55, 0, 0.25, 1) forwards;
 }
 
 @keyframes contactSpin {
@@ -272,6 +319,69 @@ body.contact-music-playing .contact-music-icon {
   }
 }
 
+@keyframes linkedinExplode {
+  0% {
+    opacity: 0.95;
+    transform: scale(0.2);
+  }
+
+  55% {
+    opacity: 0.75;
+    transform: scale(1.4);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+@keyframes linkedinIconExplode {
+  0% {
+    opacity: 1;
+    transform: rotate(3820deg) scale(1.28);
+  }
+
+  45% {
+    opacity: 0.85;
+    transform: rotate(4120deg) scale(1.65);
+  }
+
+  100% {
+    opacity: 0;
+    transform: rotate(4520deg) scale(0.15);
+  }
+}
+
+@keyframes linkedinNumberExplode {
+  0% {
+    opacity: 1;
+    transform: translateY(-50%) rotate(2860deg) scale(1.2);
+  }
+
+  45% {
+    opacity: 0.95;
+    transform: translateY(-50%) rotate(3180deg) scale(1.8);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-50%) rotate(3600deg) scale(0.1);
+  }
+}
+
+@keyframes linkedinPageFill {
+  0% {
+    opacity: 0.96;
+    transform: translate(-50%, -50%) scale(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(24);
+  }
+}
+
 @keyframes pageFadeIn {
   from {
     opacity: 0;
@@ -302,6 +412,9 @@ body.contact-music-playing .contact-music-icon {
 
   .linkedin-flyout,
   .linkedin-flyout img,
+  .linkedin-burst,
+  .linkedin-countdown,
+  .linkedin-transition-burst,
   .linkedin-pulse-ring {
     animation: none;
   }
