@@ -7,6 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="site.css">
 
     <link rel="apple-touch-icon" sizes="192x192" href="img/favicon/apple-touch-icon.png">
     <link rel="icon" sizes="512x512" href="img/favicon/android-chrome-512x512.png">
@@ -37,6 +38,12 @@
         <h1 class="display-5">Contact</h1>
 
         <p class="lead">Please, use the form below to contact me or request services.</p>
+        <div class="contact-soundbar">
+          <button type="button" class="btn btn-outline-primary contact-music-toggle" aria-pressed="false" data-contact-music>
+            <span class="contact-music-icon" aria-hidden="true"></span>
+            <span data-contact-music-label>Play MIDI mood</span>
+          </button>
+        </div>
 
         <form action="https://formspree.io/f/mrgngokp" method="POST" accept-charset="UTF-8" >
           <div class="form-group">
@@ -70,5 +77,146 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+      (function () {
+        var button = document.querySelector("[data-contact-music]");
+        var label = document.querySelector("[data-contact-music-label]");
+        var audioContext = null;
+        var timer = null;
+        var step = 0;
+        var isPlaying = false;
+        var isStarting = false;
+        var pendingAutoplay = false;
+        var melody = [69, 72, 71, 67, 64, 67, 69, null, 67, 69, 71, 74, 72, 67, 64, null];
+        var bass = [45, null, 45, null, 43, null, 43, null, 40, null, 40, null, 43, null, 45, null];
+        var tempo = 190;
+
+        function frequencyFromMidi(note) {
+          return 440 * Math.pow(2, (note - 69) / 12);
+        }
+
+        function playNote(note, duration, type, volume) {
+          if (note === null || !audioContext) {
+            return;
+          }
+
+          var now = audioContext.currentTime;
+          var oscillator = audioContext.createOscillator();
+          var gain = audioContext.createGain();
+
+          oscillator.type = type;
+          oscillator.frequency.setValueAtTime(frequencyFromMidi(note), now);
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.exponentialRampToValueAtTime(volume, now + 0.015);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+          oscillator.connect(gain);
+          gain.connect(audioContext.destination);
+          oscillator.start(now);
+          oscillator.stop(now + duration + 0.02);
+        }
+
+        function tick() {
+          if (!isPlaying) {
+            return;
+          }
+
+          playNote(melody[step % melody.length], 0.14, "square", 0.055);
+
+          if (step % 2 === 0) {
+            playNote(bass[step % bass.length], 0.22, "triangle", 0.05);
+          }
+
+          if (step % 8 === 4) {
+            playNote(melody[(step + 5) % melody.length] - 12, 0.18, "sine", 0.025);
+          }
+
+          step += 1;
+          timer = window.setTimeout(tick, tempo);
+        }
+
+        function markPlaying() {
+          isPlaying = true;
+          isStarting = false;
+          pendingAutoplay = false;
+          button.setAttribute("aria-pressed", "true");
+          label.textContent = "Pause MIDI mood";
+          document.body.classList.add("contact-music-playing");
+          tick();
+        }
+
+        function markReady() {
+          isPlaying = false;
+          isStarting = false;
+          button.setAttribute("aria-pressed", "false");
+          label.textContent = "Play MIDI mood";
+          document.body.classList.remove("contact-music-playing");
+        }
+
+        function startMusic() {
+          if (isPlaying || isStarting) {
+            return;
+          }
+
+          isStarting = true;
+          audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+          audioContext.resume().then(function () {
+            if (audioContext.state === "running") {
+              markPlaying();
+              return;
+            }
+
+            pendingAutoplay = true;
+            markReady();
+          }).catch(function () {
+            pendingAutoplay = true;
+            markReady();
+          });
+        }
+
+        function stopMusic() {
+          isPlaying = false;
+          isStarting = false;
+          window.clearTimeout(timer);
+          button.setAttribute("aria-pressed", "false");
+          label.textContent = "Play MIDI mood";
+          document.body.classList.remove("contact-music-playing");
+        }
+
+        function startAfterGesture() {
+          if (!pendingAutoplay || isPlaying) {
+            return;
+          }
+
+          startMusic();
+          document.removeEventListener("pointerdown", startAfterGesture);
+          document.removeEventListener("keydown", startAfterGesture);
+        }
+
+        if (button) {
+          button.addEventListener("click", function () {
+            if (isPlaying) {
+              stopMusic();
+              return;
+            }
+
+            startMusic();
+          });
+
+          window.setTimeout(function () {
+            startMusic();
+            window.setTimeout(function () {
+              if (!isPlaying) {
+                pendingAutoplay = true;
+                document.addEventListener("pointerdown", startAfterGesture);
+                document.addEventListener("keydown", startAfterGesture);
+              }
+            }, 600);
+          }, 300);
+
+          window.addEventListener("pagehide", stopMusic);
+        }
+      }());
+    </script>
   </body>
 </html>
