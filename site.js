@@ -69,7 +69,7 @@
 
     function setPlaying(isPlaying) {
       button.setAttribute("aria-pressed", isPlaying ? "true" : "false");
-      label.textContent = isPlaying ? "Pause MIDI mood" : "Play MIDI mood";
+      label.textContent = isPlaying ? "Pause MIDI" : "Play MIDI";
       document.body.classList.toggle("contact-music-playing", isPlaying);
     }
 
@@ -77,7 +77,7 @@
       label.textContent = text;
       window.setTimeout(function () {
         if (audio.paused) {
-          label.textContent = "Play MIDI mood";
+          label.textContent = "Play MIDI";
         }
       }, 1600);
     }
