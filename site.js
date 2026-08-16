@@ -3,59 +3,6 @@
     return document.querySelector(selector);
   }
 
-  function initContactSpinner() {
-    var spinner = find("[data-contact-spinner]");
-
-    if (!spinner) {
-      return;
-    }
-
-    var contactLink = find('.navbar-nav a[href="contact.htm"]');
-    var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var isNavigating = false;
-
-    function goToContact(event) {
-      if (event) {
-        event.preventDefault();
-      }
-
-      if (isNavigating) {
-        return;
-      }
-
-      isNavigating = true;
-
-      if (!contactLink || reduceMotion) {
-        window.location.href = spinner.href;
-        return;
-      }
-
-      var spinnerBox = spinner.getBoundingClientRect();
-      var contactBox = contactLink.getBoundingClientRect();
-
-      if (!contactBox.width || !contactBox.height) {
-        window.location.href = spinner.href;
-        return;
-      }
-
-      spinner.style.setProperty("--contact-launch-x", (contactBox.left + contactBox.width / 2 - spinnerBox.left - spinnerBox.width / 2) + "px");
-      spinner.style.setProperty("--contact-launch-y", (contactBox.top + contactBox.height / 2 - spinnerBox.top - spinnerBox.height / 2) + "px");
-      contactLink.classList.add("contact-link-target");
-      spinner.classList.add("is-launching");
-
-      window.setTimeout(function () {
-        document.body.classList.add("page-leaving");
-      }, 500);
-
-      window.setTimeout(function () {
-        window.location.href = spinner.href;
-      }, 760);
-    }
-
-    spinner.addEventListener("mouseenter", goToContact);
-    spinner.addEventListener("click", goToContact);
-  }
-
   function initContactMusic() {
     var button = find("[data-contact-music]");
     var label = find("[data-contact-music-label]");
@@ -345,7 +292,6 @@
     });
   }
 
-  initContactSpinner();
   initContactMusic();
   initLinkedInTravel();
   initLinkedInCountdown();
