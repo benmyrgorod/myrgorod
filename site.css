@@ -15,6 +15,53 @@ body.page-leaving {
   transform: translateY(8px);
 }
 
+.clients-section {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.client-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.client-logo {
+  align-items: center;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 112px;
+  padding: 1.25rem 0.75rem;
+  text-align: center;
+}
+
+.client-logo img {
+  height: 64px;
+  max-width: 100%;
+  object-fit: contain;
+  width: 150px;
+}
+
+.client-logo a {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+.client-logo--dark {
+  background: #0c1d3f;
+  border-color: #0c1d3f;
+}
+
 .hero-title-row {
   align-items: center;
   display: flex;
@@ -480,6 +527,14 @@ body.contact-music-playing .contact-music-icon {
 }
 
 @media (max-width: 575.98px) {
+  .client-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .client-logo {
+    min-height: 108px;
+  }
+
   .contact-soundbar {
     flex-direction: row-reverse;
     flex-wrap: nowrap;
