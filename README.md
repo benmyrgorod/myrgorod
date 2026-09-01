@@ -1,4 +1,4 @@
-👋 Hi, I’m Ben Myrgorod.
+👋 Hi, I’m Beni Myrgorod.
 
 I’m passionate about AI systems, architecture design, and emerging computing models including quantum technologies.
 
