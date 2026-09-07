@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="site.css?v=20260907-3">
+    <link rel="stylesheet" href="site.css?v=20260907-4">
 
     <link rel="apple-touch-icon" sizes="192x192" href="img/favicon/apple-touch-icon.png">
     <link rel="icon" sizes="512x512" href="img/favicon/android-chrome-512x512.png">
@@ -37,10 +37,17 @@
           <a class="nav-item nav-link" href="index.htm">Home</a>
           <a class="nav-item nav-link" href="services.htm">Services</a>
           <a aria-selected="true" class="nav-item nav-link active" href="contact.htm">Contact</a>
+          <a class="nav-item nav-link" href="privacy.htm">Privacy</a>
           <a class="nav-item nav-link" href="https://docs.google.com/document/d/1-IERaWfuqWJB1QZo3IpXSDHs8WfIMgLPxwJzZmitJ3s/export?format=pdf">Resume / CV</a>
         </div>
       </div>
     </nav>
+
+    <aside class="site-privacy-banner" aria-label="Privacy and confidentiality notice">
+      <div class="container">
+        <strong>Privacy &amp; confidentiality:</strong> Microsoft Clarity and GoatCounter process site-usage data, and Formspree processes contact submissions. Do not send confidential or sensitive information. <a href="privacy.htm">Read the policy</a>.
+      </div>
+    </aside>
 
     <div role="complementary" aria-label="Contact form" class="mt-4 mb-4">
       <div class="container">
@@ -67,7 +74,12 @@
         </div>
         <div class="linkedin-transition-burst" aria-hidden="true" data-linkedin-transition-burst></div>
 
-        <form action="https://formspree.io/f/mrgngokp" method="POST" accept-charset="UTF-8" >
+        <div class="contact-confidentiality" role="note" aria-labelledby="contact-confidentiality-heading">
+          <h2 id="contact-confidentiality-heading">Before you send a message</h2>
+          <p id="contact-confidentiality-text">This form is handled by Formspree and is not a confidential or secure channel for sensitive material. Please do not include passwords, access credentials, financial or health information, government identifiers, client secrets, proprietary source code, or other confidential information. Use the form only to request a safer exchange method if one is needed. <a href="privacy.htm#contact-data">Learn how contact data is processed</a>.</p>
+        </div>
+
+        <form action="https://formspree.io/f/mrgngokp" method="POST" accept-charset="UTF-8" aria-describedby="contact-confidentiality-text">
           <div class="form-group">
             <label for="name">Your name:<span class="required-indicator" aria-hidden="true">*</span></label>
             <input type="input" class="form-control" name="name" id="name" placeholder="" required>
@@ -90,7 +102,7 @@
         <p class="float-right">
           <a href="#" data-back-to-top>Back to top</a>
         </p>
-        <p>© 2026i Beni Myrgorod</p>
+        <p>© 2026i Beni Myrgorod · <a href="privacy.htm">Privacy &amp; Data Processing</a></p>
       </div>
     </footer>
 
