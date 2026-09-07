@@ -311,6 +311,41 @@ body.contact-music-playing .contact-music-icon {
   animation: linkedinPageFill 650ms cubic-bezier(0.55, 0, 0.25, 1) forwards;
 }
 
+.back-to-top-whirl {
+  border: 0.3rem dashed rgba(0, 123, 255, 0.9);
+  border-radius: 50%;
+  height: 5rem;
+  left: var(--whirl-x, 50%);
+  opacity: 0;
+  pointer-events: none;
+  position: fixed;
+  top: var(--whirl-y, 50%);
+  transform: translate(-50%, -50%) rotate(0deg) scale(0.25);
+  width: 5rem;
+  z-index: 3000;
+}
+
+.back-to-top-whirl::before,
+.back-to-top-whirl::after {
+  border-radius: 50%;
+  content: "";
+  inset: -0.9rem;
+  position: absolute;
+}
+
+.back-to-top-whirl::before {
+  border: 0.2rem dotted rgba(23, 162, 184, 0.85);
+}
+
+.back-to-top-whirl::after {
+  border: 0.18rem solid rgba(255, 212, 71, 0.75);
+  inset: 0.55rem;
+}
+
+.back-to-top-whirl.is-active {
+  animation: backToTopWhirl 900ms cubic-bezier(0.2, 0.75, 0.25, 1) forwards;
+}
+
 @keyframes contactSpin {
   to {
     transform: rotate(360deg);
@@ -525,6 +560,22 @@ body.contact-music-playing .contact-music-icon {
   }
 }
 
+@keyframes backToTopWhirl {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(0deg) scale(0.25);
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(1080deg) scale(9);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   body {
     animation: none;
@@ -544,7 +595,8 @@ body.contact-music-playing .contact-music-icon {
   .linkedin-countdown-number,
   .page-link-burst,
   .linkedin-transition-burst,
-  .linkedin-pulse-ring {
+  .linkedin-pulse-ring,
+  .back-to-top-whirl {
     animation: none;
   }
 }
