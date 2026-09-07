@@ -292,9 +292,38 @@
     });
   }
 
+  function initClientInvite() {
+    var button = find("[data-client-invite]");
+    var clickCount = 0;
+
+    if (!button) {
+      return;
+    }
+
+    button.addEventListener("click", function () {
+      var email;
+
+      clickCount += 1;
+
+      if (clickCount < 3) {
+        return;
+      }
+
+      clickCount = 0;
+      email = [98, 101, 110, 109, 121, 114, 103, 111, 114, 111, 100, 64, 103, 109, 97, 105, 108, 46, 99, 111, 109]
+        .map(function (characterCode) {
+          return String.fromCharCode(characterCode);
+        })
+        .join("");
+
+      window.alert("Please request access to my CV and contact me via LinkedIn or email which is " + email + ".");
+    });
+  }
+
   initContactMusic();
   initLinkedInTravel();
   initLinkedInCountdown();
   initLinkTransitions();
   initFormTransitions();
+  initClientInvite();
 }());
