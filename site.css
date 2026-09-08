@@ -308,6 +308,38 @@ a:focus {
   outline-offset: 0.35rem;
 }
 
+.earthly-sticker {
+  bottom: max(0.75rem, env(safe-area-inset-bottom));
+  display: block;
+  position: fixed;
+  right: max(0.75rem, env(safe-area-inset-right));
+  transition: transform 180ms ease;
+  width: clamp(6.5rem, 14vw, 11rem);
+  z-index: 1050;
+}
+
+.earthly-sticker:hover,
+.earthly-sticker:focus {
+  transform: translateY(-0.3rem) scale(1.04);
+}
+
+.earthly-sticker:focus {
+  outline: 3px solid var(--heart-cyan-link);
+  outline-offset: 0.2rem;
+}
+
+.earthly-sticker-motion {
+  animation: earthlyStickerFloat 4.5s ease-in-out infinite;
+  display: block;
+}
+
+.earthly-sticker img {
+  display: block;
+  filter: drop-shadow(0 0.65rem 0.7rem rgba(16, 50, 74, 0.28));
+  height: auto;
+  width: 100%;
+}
+
 .services-hero {
   background:
     radial-gradient(circle at 12% 12%, rgba(144, 214, 243, 0.2), transparent 34%),
@@ -1060,12 +1092,21 @@ body.contact-music-playing .contact-music-icon {
 @keyframes pageFadeIn {
   from {
     opacity: 0;
-    transform: translateY(6px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+  }
+}
+
+@keyframes earthlyStickerFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(-0.65rem) rotate(2deg);
   }
 }
 
@@ -1111,6 +1152,12 @@ body.contact-music-playing .contact-music-icon {
 
   .services-orbit {
     animation: none;
+  }
+
+  .earthly-sticker,
+  .earthly-sticker-motion {
+    animation: none;
+    transition: none;
   }
 
   .service-card,
