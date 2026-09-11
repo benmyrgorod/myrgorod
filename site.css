@@ -89,6 +89,13 @@ a:focus {
   padding: 0.7rem 0;
 }
 
+.site-privacy-banner__content {
+  align-items: flex-start;
+  display: flex;
+  gap: 0.8rem;
+  justify-content: space-between;
+}
+
 .site-privacy-banner strong {
   color: var(--heart-navy);
 }
@@ -97,6 +104,30 @@ a:focus {
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 0.15em;
+}
+
+.site-privacy-banner__close {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 0.25rem;
+  color: var(--heart-navy);
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  font-size: 1.7rem;
+  justify-content: center;
+  line-height: 1;
+  margin: -0.1rem -0.2rem -0.1rem 0;
+  min-height: 2rem;
+  min-width: 2rem;
+  padding: 0.15rem;
+}
+
+.site-privacy-banner__close:hover,
+.site-privacy-banner__close:focus {
+  background: #ccebf6;
+  color: #092a3c;
 }
 
 .contact-confidentiality {

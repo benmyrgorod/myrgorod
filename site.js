@@ -362,6 +362,35 @@
     });
   }
 
+  function initPrivacyBanner() {
+    var banner = find("[data-privacy-banner]");
+    var dismissButton = find("[data-privacy-banner-dismiss]");
+    var storageKey = "myrgorod.privacyBannerDismissed.v1";
+
+    if (!banner || !dismissButton) {
+      return;
+    }
+
+    try {
+      if (window.localStorage.getItem(storageKey) === "true") {
+        banner.hidden = true;
+        return;
+      }
+    } catch (error) {
+      // Continue to show the notice if browser storage is unavailable.
+    }
+
+    dismissButton.addEventListener("click", function () {
+      banner.hidden = true;
+
+      try {
+        window.localStorage.setItem(storageKey, "true");
+      } catch (error) {
+        // The notice remains dismissed for this page even if it cannot persist.
+      }
+    });
+  }
+
   initContactMusic();
   initLinkedInTravel();
   initLinkedInCountdown();
@@ -369,4 +398,5 @@
   initFormTransitions();
   initClientInvite();
   initBackToTopEffects();
+  initPrivacyBanner();
 }());
