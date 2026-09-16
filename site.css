@@ -345,7 +345,7 @@ a:focus {
   position: fixed;
   right: max(0.75rem, env(safe-area-inset-right));
   transition: transform 180ms ease;
-  width: clamp(6.5rem, 14vw, 11rem);
+  width: clamp(5rem, 11vw, 8.5rem);
   z-index: 1050;
 }
 
